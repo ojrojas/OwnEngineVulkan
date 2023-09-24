@@ -1,7 +1,5 @@
-#define VK_USE_PLATFORM_WIN32_KHR
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 #include "Window.hpp"
 #include <iostream>
@@ -32,7 +30,7 @@ namespace OwnEngine {
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		_window = glfwCreateWindow(_width, _height, _nameWindow.c_str(), nullptr, nullptr);
 
-		//glfwMakeContextCurrent(_window);
+		glfwMakeContextCurrent(_window);
 	}
 
 	void Window::WindowPollEvents()

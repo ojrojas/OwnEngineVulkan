@@ -2,6 +2,7 @@
 # and include sub-projects here.
 #
 cmake_minimum_required (VERSION 3.8)
+include(.env.cmake OPTIONAL RESULT_VARIABLE LOCAL_ENV)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
