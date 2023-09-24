@@ -340,7 +340,9 @@ namespace OwnEngine
 				indices.presentFamily = i;
 
 			if (indices.isComplete())
+			{
 				break;
+			}
 
 			i++;
 		}

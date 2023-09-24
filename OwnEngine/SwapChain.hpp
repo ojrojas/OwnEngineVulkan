@@ -15,6 +15,7 @@ namespace OwnEngine
 
 		OwnEngine::Device _device;
 		VkExtent2D _windowExtent;
+		VkSwapchainKHR _swapChain;
 
 
 		void Initialize();

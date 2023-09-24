@@ -4,6 +4,7 @@
 #pragma once
 #include "../OwnEngine/Window.hpp"
 #include "../OwnEngine/Device.hpp"
+#include "../OwnEngine/SwapChain.hpp"
 
 namespace TestGame {
 
@@ -13,12 +14,15 @@ namespace TestGame {
 		~Game();
 		void Run();
 	private:
+
+		VkExtent2D _windowExtent;
+
 		OwnEngine::Window _window{ 1024,768,"FirstGame" };
-		OwnEngine::Device _device{ 
-			_window, 
-			"FirstGame", 
-			OwnEngine::MakeVersion{1,0,0}, 
-			"OwnEngine", OwnEngine::MakeVersion{1,0,0} 
+		OwnEngine::Device _device{
+			_window,
+			"FirstGame",
+			OwnEngine::MakeVersion{1,0,0},
+			"OwnEngine", OwnEngine::MakeVersion{1,0,0}
 		};
 	};
 }

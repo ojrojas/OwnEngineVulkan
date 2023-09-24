@@ -62,9 +62,12 @@ namespace OwnEngine
 
 		VkPhysicalDeviceProperties _deviceProperties;
 		
+		VkDevice GetVkDevice() const { return _device; }
+		VkSurfaceKHR GetVkSurface() const { return _surface; }
 
-		VkDevice GetVkDevice() { return _device; }
 		SwapChainSupportDetails GetSwapChainSupport() { return QuerySwapChainSupport(_physicalDevice); }
+		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+		VkPhysicalDevice GetVkPhysicalDevice() { return _physicalDevice; }
 
 
 	private:
@@ -100,7 +103,6 @@ namespace OwnEngine
 			VkDebugUtilsMessengerEXT pDebugMessenger,
 			VkAllocationCallbacks *pAllocator);
 
-		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 		SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
 
 		VkDebugUtilsMessengerEXT _debugMessenger;
