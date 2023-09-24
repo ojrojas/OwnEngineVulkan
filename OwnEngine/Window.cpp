@@ -45,4 +45,9 @@ namespace OwnEngine {
 		if (result  != VK_SUCCESS)
 			throw std::runtime_error("failed to create window surface");
 	}
+
+	void Window::GetFramebufferSize(int *width, int *height)
+	{
+		glfwGetFramebufferSize(_window, width, height);
+	}
 }

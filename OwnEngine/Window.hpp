@@ -12,23 +12,30 @@ namespace OwnEngine {
 	public:
 
 		/// @brief Constructor create principal window
-		/// @param width size width principal window
-		/// @param height size height principal window
-		/// @param nameWindow name principal window
+		/// @param width 
+		/// @param height 
+		/// @param nameWindow 
 		Window(int width, int height, std::string nameWindow);
 		
 		/// @brief Destructor principal window
 		~Window();
 
 		/// @brief Method tell glfw window is closed
-		/// @return 
+		/// @return should window is closed
 		bool ShouldWindowClose();
+
 		/// @brief get poll events application
 		void WindowPollEvents();
+
 		/// @brief Create surface vulkan
-		/// @param instance Instance vulkan 
-		/// @param surface Surface vulkan application
+		/// @param instance  
+		/// @param surface 
 		void CreateWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
+
+		/// @brief Get framebuffer size window
+		/// @param width
+		/// @param height
+		void GetFramebufferSize(int *width, int *height);
 		
 	private:
 		/// @brief Instance window glfw

@@ -20,6 +20,13 @@ namespace OwnEngine
 		}
 	};
 
+	/// @brief Struct swap chain support details verify
+	struct SwapChainSupportDetails {
+		VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentModes;
+	};
+
 	/// @brief Device class
 	/// @details Create device instance vulkan physical and logical
 	/// also setting default dubugger application
@@ -27,11 +34,11 @@ namespace OwnEngine
 	{
 	public:
 		/// @brief Device constructor
-		/// @param window window instance ownengine
-		/// @param nameApplication string name application
-		/// @param applicationVersion ownengine utils make version
-		/// @param nameEngine string name engine "OwnEngine"
-		/// @param engineVersion ownengine utils make version 
+		/// @param window 
+		/// @param nameApplication 
+		/// @param applicationVersion
+		/// @param nameEngine 
+		/// @param engineVersion
 		Device(
 			OwnEngine::Window &window,
 			std::string nameApplication,
@@ -54,6 +61,11 @@ namespace OwnEngine
 #endif // NDEBUG
 
 		VkPhysicalDeviceProperties _deviceProperties;
+		
+
+		VkDevice GetVkDevice() { return _device; }
+		SwapChainSupportDetails GetSwapChainSupport() { return QuerySwapChainSupport(_physicalDevice); }
+
 
 	private:
 		VkInstance _instance;
@@ -89,6 +101,7 @@ namespace OwnEngine
 			VkAllocationCallbacks *pAllocator);
 
 		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+		SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
 
 		VkDebugUtilsMessengerEXT _debugMessenger;
 
