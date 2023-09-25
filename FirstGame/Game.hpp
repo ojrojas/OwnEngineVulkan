@@ -24,6 +24,8 @@ namespace TestGame {
 			OwnEngine::MakeVersion{1,0,0},
 			"OwnEngine", OwnEngine::MakeVersion{1,0,0}
 		};
+
+		OwnEngine::SwapChain _swapChain{ _device, _windowExtent };
 	};
 }
 

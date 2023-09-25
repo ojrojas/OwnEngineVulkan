@@ -25,10 +25,11 @@ namespace OwnEngine
 
 	Device::~Device()
 	{
+		vkDestroyDevice(_device, nullptr);
+
 		if (_enableValidationLayers)
 			DestroyDebugUtilsMessengerEXT(_instance, _debugMessenger, nullptr);
 
-		vkDestroyDevice(_device, nullptr);
 		vkDestroySurfaceKHR(_instance, _surface, nullptr);
 		vkDestroyInstance(_instance, nullptr);
 		std::cout << "Instace vk is destroyed " << std::endl;

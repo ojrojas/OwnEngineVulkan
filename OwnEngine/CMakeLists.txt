@@ -1,4 +1,4 @@
-﻿add_library(OwnEngine STATIC "Window.cpp" "Window.hpp" "Device.hpp" "Device.cpp" "UtilsEngine.hpp" "SwapChain.cpp" "SwapChain.hpp")
+﻿add_library(OwnEngine STATIC "Window.cpp" "Window.hpp" "Device.hpp" "Device.cpp" "UtilsEngine.hpp" "SwapChain.cpp" "SwapChain.hpp" "Pipeline.cpp" "Pipeline.hpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET OwnEngine PROPERTY CXX_STANDARD 20)

@@ -9,17 +9,22 @@ namespace OwnEngine
 	class SwapChain
 	{
 	public:
-		SwapChain(OwnEngine::Device device, VkExtent2D windowExtent);
+		SwapChain(OwnEngine::Device &device, VkExtent2D windowExtent);
 		~SwapChain();
 	private:
 
-		OwnEngine::Device _device;
+		OwnEngine::Device &_device;
 		VkExtent2D _windowExtent;
 		VkSwapchainKHR _swapChain;
 
+		std::vector<VkImage> _swapChainImages;
+		VkFormat _swapChainImageFormat;
+		VkExtent2D _swapChainExtent;
+		std::vector<VkImageView> _swapChainImageViews;
 
 		void Initialize();
 		void CreateSwapChain();
+		void CreateImageViews();
 
 		VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> availableFormats);
 		VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
