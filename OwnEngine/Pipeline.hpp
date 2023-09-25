@@ -31,5 +31,10 @@ namespace OwnEngine {
 			const std::string fragFilePath,
 			PipelineConfigInfo& configInfo);
 
+		void CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
+
+		VkShaderModule _fragShaderModule;
+		VkShaderModule _vertShaderModule;
+
 	};
 }
