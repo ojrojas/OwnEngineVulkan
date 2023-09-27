@@ -10,15 +10,15 @@
 namespace OwnEngine
 {
 	Device::Device(
-		OwnEngine::Window& window,
+		OwnEngine::Window &window,
 		std::string nameApplication,
 		OwnEngine::MakeVersion applicationVersion,
 		std::string nameEngine,
-		OwnEngine::MakeVersion engineVersion) : _window{ window },
-		_nameApplication{ nameApplication },
-		_applicationVersion{ VK_MAKE_VERSION(applicationVersion.major, applicationVersion.minor, applicationVersion.patch) },
-		_nameEngine{ nameEngine },
-		_engineVersion{ VK_MAKE_VERSION(engineVersion.major, engineVersion.minor, engineVersion.patch) }
+		OwnEngine::MakeVersion engineVersion) : _window{window},
+												_nameApplication{nameApplication},
+												_applicationVersion{VK_MAKE_VERSION(applicationVersion.major, applicationVersion.minor, applicationVersion.patch)},
+												_nameEngine{nameEngine},
+												_engineVersion{VK_MAKE_VERSION(engineVersion.major, engineVersion.minor, engineVersion.patch)}
 	{
 		Initialize();
 	}
@@ -35,7 +35,7 @@ namespace OwnEngine
 		std::cout << "Instace vk is destroyed " << std::endl;
 	}
 
-	VkResult Device::VkCreateInstanceApp(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkInstance* instance)
+	VkResult Device::VkCreateInstanceApp(const VkInstanceCreateInfo *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkInstance *instance)
 	{
 		if (pCreateInfo == nullptr || instance == nullptr)
 		{
@@ -70,6 +70,7 @@ namespace OwnEngine
 		VkInstanceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
+		createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
 
 		VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 		if (_enableValidationLayers)
@@ -78,7 +79,7 @@ namespace OwnEngine
 			createInfo.ppEnabledLayerNames = validationLayers.data();
 
 			PopulateDebugMessengerCreateInfo(debugCreateInfo);
-			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
+			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT *)&debugCreateInfo;
 		}
 		else
 		{
@@ -95,13 +96,12 @@ namespace OwnEngine
 
 		extensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
 
-		createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 		createInfo.ppEnabledExtensionNames = extensions.data();
 
 		std::cout << "Required extension to create instace vk: " << std::endl;
 
-		for (const auto& extension : extensions)
+		for (const auto &extension : extensions)
 			std::cout << "\t" << extension << std::endl;
 
 		if (_enableValidationLayers)
@@ -129,7 +129,7 @@ namespace OwnEngine
 			throw std::runtime_error("failed to setup debug messenger!");
 	}
 
-	void Device::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+	void Device::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo)
 	{
 		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 		createInfo.messageSeverity =
@@ -157,7 +157,7 @@ namespace OwnEngine
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(_instance, &deviceCount, devices.data());
 
-		for (const auto& device : devices)
+		for (const auto &device : devices)
 		{
 			if (IsDeviceSuitable(device))
 			{
@@ -176,7 +176,7 @@ namespace OwnEngine
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos{};
 
-		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
+		std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 		float queuePriority = 1.0f;
 
 		for (uint32_t queueFamily : uniqueQueueFamilies)
@@ -197,7 +197,7 @@ namespace OwnEngine
 		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pEnabledFeatures = &deviceFeatures;
 
-		createInfo.enabledExtensionCount = static_cast<uint32_t> (deviceExtensions.size());
+		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
 		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
 		if (_enableValidationLayers)
@@ -227,10 +227,10 @@ namespace OwnEngine
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		for (const char* layerName : validationLayers)
+		for (const char *layerName : validationLayers)
 		{
 			bool layerFound = false;
-			for (const auto& layerProperties : availableLayers)
+			for (const auto &layerProperties : availableLayers)
 			{
 				if (strcmp(layerName, layerProperties.layerName) == 0)
 				{
@@ -255,7 +255,7 @@ namespace OwnEngine
 
 		std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 		std::cout << "CheckDeviceExtensionSupport" << std::endl;
-		for (const auto& extension : availableExtensions)
+		for (const auto &extension : availableExtensions)
 		{
 			std::cout << "\t" << extension.extensionName << " : " << extension.specVersion << std::endl;
 			requiredExtensions.erase(extension.extensionName);
@@ -286,25 +286,29 @@ namespace OwnEngine
 			score += 1000;
 		score = +_deviceProperties.limits.maxImageDimension2D;
 
-		/*if (!deviceFeatures.geometryShader)
-			return 0;*/
+		if (!_deviceFeatures.geometryShader)
+			return 0;
 
 		return score;
 	}
 
-	std::vector<const char*> Device::GetRequiredExtensions()
+	std::vector<const char *> Device::GetRequiredExtensions()
 	{
 		uint32_t glfwExtensionCount = 0;
-		const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+		const char **glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-		std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+		std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 		if (_enableValidationLayers)
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
+#ifdef __APPLE__ || __MACH__
+		extensions.push_back("VK_KHR_get_physical_device_properties2");
+#endif
 
 		return extensions;
 	}
 
-	VkResult Device::CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
+	VkResult Device::CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger)
 	{
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_instance, "vkCreateDebugUtilsMessengerEXT");
 		if (func != nullptr)
@@ -313,7 +317,7 @@ namespace OwnEngine
 			return VK_ERROR_EXTENSION_NOT_PRESENT;
 	}
 
-	void Device::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT pDebugMessenger, VkAllocationCallbacks* pAllocator)
+	void Device::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT pDebugMessenger, VkAllocationCallbacks *pAllocator)
 	{
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_instance, "vkDestroyDebugUtilsMessengerEXT");
 		if (func != nullptr)
@@ -329,7 +333,7 @@ namespace OwnEngine
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
 		int i = 0;
-		for (const auto& queueFamily : queueFamilies)
+		for (const auto &queueFamily : queueFamilies)
 		{
 			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 				indices.graphicsFamily = i;
@@ -367,7 +371,7 @@ namespace OwnEngine
 
 		uint32_t presentModeCount;
 		vkGetPhysicalDeviceSurfacePresentModesKHR(device, _surface, &presentModeCount, nullptr);
-		
+
 		if (presentModeCount != 0)
 		{
 			details.presentModes.resize(presentModeCount);
@@ -377,7 +381,7 @@ namespace OwnEngine
 		return details;
 	}
 
-	VKAPI_ATTR VkBool32 VKAPI_CALL Device::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageSeverityFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+	VKAPI_ATTR VkBool32 VKAPI_CALL Device::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageSeverityFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData)
 	{
 		std::cerr << "validation layers" << pCallbackData->pMessage << std::endl;
 		return VK_FALSE;

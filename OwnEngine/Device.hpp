@@ -21,7 +21,8 @@ namespace OwnEngine
 	};
 
 	/// @brief Struct swap chain support details verify
-	struct SwapChainSupportDetails {
+	struct SwapChainSupportDetails
+	{
 		VkSurfaceCapabilitiesKHR capabilities;
 		std::vector<VkSurfaceFormatKHR> formats;
 		std::vector<VkPresentModeKHR> presentModes;
@@ -34,10 +35,10 @@ namespace OwnEngine
 	{
 	public:
 		/// @brief Device constructor
-		/// @param window 
-		/// @param nameApplication 
+		/// @param window
+		/// @param nameApplication
 		/// @param applicationVersion
-		/// @param nameEngine 
+		/// @param nameEngine
 		/// @param engineVersion
 		Device(
 			OwnEngine::Window &window,
@@ -52,7 +53,7 @@ namespace OwnEngine
 		/// @brief Setting validation layers
 		const std::vector<const char *> validationLayers = {"VK_LAYER_KHRONOS_validation"};
 		/// @brief Setting extension names
-		const std::vector<const char *> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+		const std::vector<const char *> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset"};
 
 #ifdef NDEBUG
 		const bool _enableValidationLayers = false;
@@ -61,14 +62,14 @@ namespace OwnEngine
 #endif // NDEBUG
 
 		VkPhysicalDeviceProperties _deviceProperties;
-		
+		VkPhysicalDeviceFeatures _deviceFeatures;
+
 		VkDevice GetVkDevice() const { return _device; }
 		VkSurfaceKHR GetVkSurface() const { return _surface; }
 
 		SwapChainSupportDetails GetSwapChainSupport() { return QuerySwapChainSupport(_physicalDevice); }
 		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 		VkPhysicalDevice GetVkPhysicalDevice() { return _physicalDevice; }
-
 
 	private:
 		VkInstance _instance;
