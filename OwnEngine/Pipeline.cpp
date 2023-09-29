@@ -37,7 +37,6 @@ namespace OwnEngine {
 		shaderStageCreateInfos[0].pNext = nullptr;
 		shaderStageCreateInfos[0].pSpecializationInfo = nullptr;
 
-
 		shaderStageCreateInfos[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		shaderStageCreateInfos[0].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 		shaderStageCreateInfos[0].module = _fragShaderModule;
@@ -45,8 +44,6 @@ namespace OwnEngine {
 		shaderStageCreateInfos[0].flags = 0;
 		shaderStageCreateInfos[0].pNext = nullptr;
 		shaderStageCreateInfos[0].pSpecializationInfo = nullptr;
-
-
 	}
 
 	std::vector<char> Pipeline::ReadFile(const std::string& filePath)
@@ -62,7 +59,6 @@ namespace OwnEngine {
 		file.seekg(0);
 		file.read(buffer.data(), fileSize);
 		file.close();
-
 
 		return buffer;
 	}

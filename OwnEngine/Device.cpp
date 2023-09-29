@@ -302,7 +302,7 @@ namespace OwnEngine
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 
 #ifdef __APPLE__ || __MACH__
-		extensions.push_back("VK_KHR_get_physical_device_properties2");
+		//extensions.push_back("VK_KHR_get_physical_device_properties2");
 #endif
 
 		return extensions;

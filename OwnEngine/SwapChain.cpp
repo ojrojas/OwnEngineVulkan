@@ -20,6 +20,7 @@ namespace OwnEngine
 	void SwapChain::Initialize()
 	{
 		CreateSwapChain();
+		CreateImageViews();
 	}
 
 	VkSurfaceFormatKHR SwapChain::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> availableFormats)
@@ -146,11 +147,6 @@ namespace OwnEngine
 
 			if (vkCreateImageView(_device.GetVkDevice(), &createInfo, nullptr, &_swapChainImageViews[i]) != VK_SUCCESS)
 				throw std::runtime_error("failed to create image views");
-
-
-
-
-
 		}
 	}
 }
