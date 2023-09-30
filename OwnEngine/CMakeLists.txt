@@ -18,17 +18,17 @@ else()
 	set(VULKAN_DIR_LIBS "${VULKAN_PATH}/lib")
 endif()
 
-set(STATUS "Including directories ${GLFW_DIR_INCLUDES} - ${VULKAN_DIR_INCLUDES}")
+message(STATUS "Including directories ${GLFW_DIR_INCLUDES} - ${VULKAN_DIR_INCLUDES}")
 include_directories(
 	"${GLFW_DIR_INCLUDES}"
 	"${VULKAN_DIR_INCLUDES}"
 )
 
-set(STATUS "Including target directories:")
-set(STATUS "${GLFW_DIR_INCLUDES}")
-set(STATUS "${VULKAN_DIR_INCLUDES}")
-set(STATUS "${GLFW_DIR_LIBS}")
-set(STATUS "${VULKAN_DIR_LIBS}")
+message(STATUS "Including target directories:")
+message(STATUS "${GLFW_DIR_INCLUDES}")
+message(STATUS "${VULKAN_DIR_INCLUDES}")
+message(STATUS "${GLFW_DIR_LIBS}")
+message(STATUS "${VULKAN_DIR_LIBS}")
 
 target_include_directories(OwnEngine PUBLIC 
 	"${GLFW_DIR_INCLUDES}"
@@ -37,9 +37,9 @@ target_include_directories(OwnEngine PUBLIC
 	"${VULKAN_DIR_LIBS}"
 )
 
-set(STATUS "Including libs directories:")
-set(STATUS ${GLFW_DIR_LIBS})
-set(STATUS ${VULKAN_DIR_LIBS})
+message(STATUS "Including libs directories:")
+message(STATUS ${GLFW_DIR_LIBS})
+message(STATUS ${VULKAN_DIR_LIBS})
 
 target_link_directories(OwnEngine PUBLIC 
 	"${GLFW_DIR_LIBS}"
@@ -47,13 +47,13 @@ target_link_directories(OwnEngine PUBLIC
 )
 
 if(WIN32)
-	set(STATUS "Including libraries:")
-	set(STATUS "${OwnEngine}, glfw3 vulkan-1")
+message(STATUS "Including libraries:")
+message(STATUS "${OwnEngine}, glfw3 vulkan-1")
 	target_link_libraries(OwnEngine glfw3 vulkan-1)
 elseif(APPLE)
-	set(STATUS "Including libraries:")
-	set(STATUS "${OwnEngine}, glfw.3 vulkan")
+message(STATUS "Including libraries:")
+message(STATUS "${OwnEngine}, glfw.3 vulkan")
 	target_link_libraries(OwnEngine glfw.3 vulkan.1)
 else(UNIX)
-	set("there is no implementation or configuration")
+message("there is no implementation or configuration")
 endif()
