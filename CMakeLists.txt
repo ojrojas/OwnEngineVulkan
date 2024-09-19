@@ -16,4 +16,4 @@ project ("TestGame")
 add_subdirectory ("FirstGame")
 
 add_subdirectory("OwnEngine")
-add_subdirectory("Content")
+#add_subdirectory("Content")
